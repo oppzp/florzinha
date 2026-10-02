@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>para meu amor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="show.css">
+<script src="show-lyrics.js" defer></script>
+<script src="show.js" defer></script>
+<style>
+  :root{
+    --bg-deep:#140a26;
+    --bg-mid:#2a1350;
+    --bg-mid-2:#3a1a5e;
+    --lavender:#b98cf2;
+    --lavender-soft:#d9c2fb;
+    --gold:#e8c877;
+    --rose:#f0b9dd;
+    --text-soft:#f3ecff;
+    --line:rgba(233,213,255,0.22);
+    --spotify-green:#3ee089;
+    --serif: 'Cormorant Garamond', serif;
+    --sans: 'Jost', sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg-deep);
+    color:var(--text-soft);
+    font-family:var(--sans);
+    font-weight:300;
+    overflow-x:hidden;
+  }
+
+  /* ---------- starfield ---------- */
+  #stars{ position:fixed; inset:0; z-index:0; pointer-events:none; }
+  .star{
+    position:absolute; background:var(--lavender-soft); border-radius:50%;
+    animation:twinkle 4s ease-in-out infinite; opacity:0.6;
+    box-shadow:0 0 10px rgba(217,194,251,0.82), 0 0 18px rgba(232,200,119,0.22);
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:0.15; transform:scale(1);}
+    50%{opacity:0.9; transform:scale(1.4);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .star, .moon-glow, .moon-wrap img, .hero-bouquet, .card-float, .flip-hint, .sym-drift{ animation:none !important; }
+  }
+
+  /* ---------- floating mystical symbols (background) ---------- */
+  .sym{
+    position:absolute; opacity:0.24; color:var(--lavender-soft); pointer-events:none; z-index:0;
+    filter:drop-shadow(0 0 12px rgba(232,200,119,0.14));
+  }
+  .sym.gold{ color:var(--gold); }
+  .sym.purple{ color:var(--lavender); filter:drop-shadow(0 0 12px rgba(185,140,242,0.34)); }
+  .sym-drift{ animation:drift 9s ease-in-out infinite; }
+  @keyframes drift{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-16px) rotate(6deg); }
+  }
+
+  section{ position:relative; z-index:1; padding:100px 20px 90px; max-width:720px; margin:0 auto; overflow:visible; }
+  #carta{ transition:padding-bottom .45s ease; }
+  #carta.card-open{ padding-bottom:220px; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:92vh; max-width:100%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding-top:60px; position:relative;
+  }
+.moon-wrap{
+  position:relative; width:170px; height:170px; margin-bottom:26px; z-index:2;
+  display:grid; place-items:center;
+  border-radius:50%; text-decoration:none; cursor:pointer;
+}
+.moon-wrap:focus-visible{
+  outline:1px solid rgba(232,200,119,0.72);
+  outline-offset:10px;
+}
+.moon-glow{
+  position:absolute; inset:-30px;
+  background:radial-gradient(circle, rgba(232,200,119,0.35), transparent 70%);
+  animation:pulse 5s ease-in-out infinite; border-radius:50%;
+}
+.moon-wrap img{
+  width:100%; height:100%; object-fit:contain; display:block; position:relative; z-index:1;
+  filter:drop-shadow(0 14px 32px rgba(232,200,119,0.28));
+  animation:sun-soft-pulse 5s ease-in-out infinite;
+}
+.hero-bouquet{
+  position:absolute; left:50%; top:68%; transform:translate(-50%,-50%);
+  width:clamp(260px, 38vw, 520px); max-height:68vh; object-fit:contain;
+  opacity:0.24; z-index:1; pointer-events:none;
+  transform-origin:50% 100%;
+  filter:drop-shadow(0 22px 46px rgba(0,0,0,0.55));
+  animation:hero-bouquet-sway 6s ease-in-out infinite;
+}
+@keyframes pulse{ 0%,100%{ transform:scale(1); opacity:0.7; } 50%{ transform:scale(1.15); opacity:1; } }
+@keyframes sun-soft-pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.04); } }
+@keyframes hero-bouquet-sway{
+  0%,100%{ transform:translate(-50%,-50%) rotate(-1.4deg) translateY(0); }
+  50%{ transform:translate(-50%,-50%) rotate(1.4deg) translateY(-1.2vmin); }
+}
+  .hero .eyebrow{ font-family:var(--serif); font-style:italic; color:var(--lavender-soft); font-size:20px; letter-spacing:0.04em; margin:0 0 6px; position:relative; z-index:2;}
+  .hero h1{
+    font-family:var(--serif); font-weight:500; font-size:clamp(56px,12vw,104px); margin:0;
+    background:linear-gradient(180deg, #fff, var(--lavender-soft) 60%, var(--gold));
+    -webkit-background-clip:text; background-clip:text; color:transparent; line-height:1; position:relative; z-index:2;
+  }
+  .hero p.tag{ max-width:420px; margin:22px auto 0; color:var(--lavender-soft); font-size:16px; line-height:1.7; position:relative; z-index:2;}
+  /* floating decorative tarot cards in hero */
+  .deco-card{ position:absolute; opacity:0.55; pointer-events:none; filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5)); z-index:1;}
+  .card-float{ animation:floaty 7s ease-in-out infinite; }
+  @keyframes floaty{ 0%,100%{ transform:translateY(0) rotate(var(--r,0deg)); } 50%{ transform:translateY(-14px) rotate(var(--r,0deg)); } }
+  .deco-left{ left:2%; top:18%; width:110px; --r:-14deg; transform:rotate(-14deg); }
+  .deco-right{ right:2%; top:14%; width:110px; --r:12deg; transform:rotate(12deg); }
+  @media (max-width:720px){ .deco-left,.deco-right{ width:76px; opacity:0.35; } }
+
+  /* ---------- section heading ---------- */
+  .kicker{ display:flex; align-items:center; gap:14px; margin-bottom:34px; }
+  .kicker svg{ width:26px; height:26px; flex-shrink:0; color:var(--gold); }
+  .kicker h2{ font-family:var(--serif); font-weight:500; font-style:italic; font-size:clamp(32px,6vw,44px); margin:0; color:var(--text-soft); }
+  .kicker .rule{ flex:1; height:1px; background:linear-gradient(90deg, var(--line), transparent); }
+
+  /* ---------- carta / tarot card ---------- */
+  .letter-stage{ display:flex; justify-content:center; perspective:1600px; margin:20px 0 70px; position:relative;}
+  .tarot-image-card{
+    width:min(320px,82vw); display:block; border-radius:14px;
+    border:1px solid var(--gold);
+    box-shadow:0 24px 70px rgba(0,0,0,0.58), 0 0 34px rgba(232,200,119,0.16);
+  }
+  .tarot-card{
+    width:min(280px,76vw); height:min(480px,130vw); position:relative; cursor:pointer;
+    transform-style:preserve-3d;
+    transition:transform .9s cubic-bezier(.2,.9,.25,1), width .45s ease, height .45s ease;
+  }
+  .tarot-card.flipped{ width:min(390px,88vw); height:min(620px, calc(100vh - 130px)); transform:rotateY(180deg); }
+  .face{ position:absolute; inset:0; border-radius:16px; backface-visibility:hidden; border:1px solid var(--gold); box-shadow:0 20px 60px rgba(0,0,0,0.55); overflow:hidden; }
+  .face-back{
+    background:none;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .face-back svg{ width:70%; }
+  .face-back .tarot-image-card{
+    width:100%; height:100%; object-fit:cover; border:0; border-radius:16px; box-shadow:none;
+  }
+  .face-front{
+    transform:rotateY(180deg); background:linear-gradient(180deg,#fbf6ea,#f1e6c9); color:#3a2a12; padding:30px 24px;
+    display:flex; flex-direction:column; position:relative;
+  }
+  .corner-sym{ position:absolute; width:20px; height:20px; opacity:0.4; color:#8a6a24; }
+  .corner-sym.tl{ top:10px; left:10px; }
+  .corner-sym.tr{ top:10px; right:10px; transform:scaleX(-1); }
+  .corner-sym.bl{ bottom:10px; left:10px; transform:scaleY(-1); }
+  .corner-sym.br{ bottom:10px; right:10px; transform:scale(-1,-1); }
+  .face-front .card-title{ font-family:var(--serif); font-style:italic; font-size:22px; text-align:center; margin:0 0 10px; color:#5a3d10; }
+  .face-front .divider{ width:40px; height:1px; background:#b3934f; margin:0 auto 16px; }
+  .letter-text{
+    font-family:var(--serif); font-size:17px; line-height:1.65; overflow-y:auto;
+    flex:1; min-height:0; padding-right:8px; color:#4a3417;
+  }
+  .letter-text .placeholder-note{ opacity:0.65; font-style:italic; }
+  .flip-hint{ text-align:center; margin-top:18px; font-family:var(--serif); font-style:italic; font-size:14px; color:rgba(217,194,251,0.7); animation:fadePulse 2.6s ease-in-out infinite; }
+  @keyframes fadePulse{ 0%,100%{ opacity:0.4; } 50%{ opacity:1; } }
+  @media (max-width:720px){
+    .tarot-card{ width:min(260px,76vw); height:min(446px,130vw); }
+    .tarot-card.flipped{ width:min(340px,90vw); height:min(560px, calc(100vh - 110px)); }
+  }
+  .edit-note{ text-align:center; font-size:13px; color:rgba(217,194,251,0.5); margin-top:14px; }
+  .edit-note code{ background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px; color:var(--gold); }
+
+  /* ---------- fotos ---------- */
+  #fotos{ max-width:880px; }
+  .gallery{
+    display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start;
+    gap:40px 34px; margin:10px auto 0; position:relative; z-index:2; padding:10px 0 24px;
+  }
+  .photo-frame{
+    width:clamp(150px, 22vw, 192px); aspect-ratio:4/5; border-radius:8px; border:1px solid rgba(232,200,119,0.36);
+    background:
+      radial-gradient(circle at 50% 45%, rgba(185,140,242,0.18), transparent 34%),
+      linear-gradient(160deg, rgba(255,248,230,0.08), rgba(185,140,242,0.07));
+    display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; cursor:pointer;
+    margin-top:var(--mt, 0px);
+    transform:translateX(var(--x,0)) rotate(var(--rot,0deg));
+    transition:border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+    box-shadow:0 16px 38px rgba(0,0,0,0.28);
+  }
+  .photo-frame::before{
+    content:''; position:absolute; inset:8px; border:1px solid rgba(217,194,251,0.22); border-radius:5px;
+    pointer-events:none; z-index:2;
+  }
+  .photo-frame::after{
+    content:'VI'; position:absolute; top:10px; left:0; right:0; text-align:center;
+    font-family:var(--serif); font-size:18px; letter-spacing:0.16em; color:rgba(232,200,119,0.84);
+    pointer-events:none; z-index:2;
+  }
+  .photo-frame:nth-child(1){ --rot:-3.2deg; --x:-8px; --mt:16px; }
+  .photo-frame:nth-child(2){ --rot:2.2deg; --x:2px; --mt:0px; }
+  .photo-frame:nth-child(3){ --rot:-1.8deg; --x:8px; --mt:14px; }
+  .photo-frame:nth-child(4){ --rot:-2.4deg; --x:-14px; --mt:10px; }
+  .photo-frame:nth-child(5){ --rot:2.6deg; --x:6px; --mt:34px; }
+  .photo-frame:nth-child(6){ --rot:-2.8deg; --x:16px; --mt:18px; }
+  .photo-frame:hover{
+    border-color:rgba(232,200,119,0.74);
+    transform:translateX(var(--x,0)) translateY(-8px) rotate(var(--rot,0deg)) scale(1.02);
+    box-shadow:0 22px 52px rgba(0,0,0,0.4);
+  }
+  .photo-frame img{ width:100%; height:100%; object-fit:cover; display:none; }
+  .photo-frame.has-img img{ display:block; }
+  .photo-frame.has-img::after{ color:rgba(255,248,230,0.9); text-shadow:0 2px 8px rgba(0,0,0,0.8); }
+  .photo-title{
+    position:absolute; left:0; right:0; bottom:12px; z-index:2; pointer-events:none;
+    text-align:center; font-family:var(--serif); font-size:15px; font-style:italic;
+    color:rgba(232,200,119,0.84); text-shadow:0 2px 8px rgba(0,0,0,0.55);
+  }
+  .photo-frame.has-img .photo-title{ color:rgba(255,248,230,0.92); text-shadow:0 2px 8px rgba(0,0,0,0.8); }
+  @media (max-width:720px){
+    .gallery{ gap:16px; }
+    .photo-frame{ width:min(42vw, 170px); }
+    .photo-frame:nth-child(n){ --x:0px; --mt:0px; }
+  }
+
+  /* ---------- musicas: spotify-style playlist ---------- */
+  .spotify-frame{
+    background:#121212;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.06);
+    box-shadow:0 25px 70px rgba(0,0,0,0.6);
+  }
+  .spotify-header{
+    display:flex; align-items:flex-end; gap:22px;
+    padding:32px 24px;
+    background:linear-gradient(180deg, rgba(185,140,242,0.35), rgba(18,18,18,0.9) 85%);
+  }
+  .cover-art{
+    width:150px; height:150px; border-radius:6px; flex-shrink:0;
+    box-shadow:0 12px 30px rgba(0,0,0,0.55);
+    overflow:hidden;
+  }
+  .cover-art svg, .cover-art img{ width:100%; height:100%; display:block; }
+  .cover-art img{ object-fit:cover; }
+  .spotify-meta{ color:#fff; min-width:0; }
+  .spotify-meta .type{ font-size:12px; letter-spacing:0.04em; color:#e6e6e6; margin:0 0 6px; font-family:var(--sans); }
+  .spotify-meta h3{
+    font-family:var(--sans); font-weight:600; font-size:clamp(26px,5vw,44px); margin:0 0 10px; line-height:1.1;
+  }
+  .spotify-meta h3 a{ color:#fff; text-decoration:none; }
+  .spotify-meta h3 a:hover{ text-decoration:underline; }
+  .spotify-meta .sub{ font-size:13px; color:#c9c9c9; font-family:var(--sans); }
+  .spotify-controls{
+    display:flex; align-items:center; gap:22px; padding:16px 24px; background:rgba(0,0,0,0.15);
+  }
+  .play-btn{
+    width:52px; height:52px; border-radius:50%; background:var(--spotify-green);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:default;
+    box-shadow:0 8px 20px rgba(62,224,137,0.35);
+  }
+  .play-btn svg{ width:20px; height:20px; fill:#0d0d0d; margin-left:2px; }
+  .like-icon{ width:22px; height:22px; color:#c9c9c9; }
+  .track-table{ padding:8px 8px 24px; }
+  .track-head{
+    display:grid; grid-template-columns:36px 1fr 70px; gap:14px; padding:8px 16px 12px;
+    font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em; color:#8c8c8c; border-bottom:1px solid rgba(255,255,255,0.08); margin-bottom:6px;
+    font-family:var(--sans);
+  }
+  .track-head .col-dur{ text-align:right; }
+  .song-row{
+    display:grid; grid-template-columns:36px 1fr 70px; gap:14px; align-items:center;
+    padding:10px 16px; border-radius:6px; cursor:default;
+  }
+  .song-row:hover{ background:rgba(255,255,255,0.06); }
+  .song-num{ font-family:var(--sans); font-size:14px; color:#a3a3a3; text-align:center; position:relative; }
+  .song-row:hover .song-num .num{ display:none; }
+  .song-row:hover .song-num .play-i{ display:inline-flex; }
+  .song-num .play-i{ display:none; align-items:center; justify-content:center; width:100%; }
+  .song-num .play-i svg{ width:12px; height:12px; fill:#fff; }
+  .song-info{ min-width:0; display:flex; align-items:center; gap:12px; }
+  .thumb{
+    width:40px; height:40px; border-radius:4px; flex-shrink:0; overflow:hidden;
+    background:linear-gradient(150deg, var(--bg-mid-2), var(--bg-mid));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .thumb svg{ width:60%; height:60%; color:var(--gold); opacity:0.8; }
+  .thumb img{ width:100%; height:100%; object-fit:cover; display:none; }
+  .thumb.has-cover img{ display:block; }
+  .thumb.has-cover svg{ display:none; }
+  .song-text{ min-width:0; }
+  .song-title{ font-family:var(--sans); font-size:14.5px; color:#fff; text-decoration:none; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .song-title:hover{ text-decoration:underline; }
+  .song-sub{ font-size:12.5px; color:#a3a3a3; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .song-dur{ font-size:13px; color:#a3a3a3; text-align:right; font-family:var(--sans); }
+
+  footer{
+    text-align:center; padding:60px 20px 80px; font-family:var(--serif); font-style:italic;
+    color:rgba(217,194,251,0.45); font-size:14px; position:relative; z-index:1;
+  }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+
+<section class="hero" id="inicio">
+  <!-- decorative tarot cards -->
+  <svg class="deco-card deco-left card-float" viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="4" width="92" height="152" rx="10" fill="#1c0f38" stroke="#e8c877" stroke-width="1.2"/>
+    <rect x="10" y="10" width="80" height="140" rx="7" fill="none" stroke="#b98cf2" stroke-width="0.7"/>
+    <circle cx="50" cy="45" r="16" fill="none" stroke="#e8c877" stroke-width="1"/>
+    <g stroke="#e8c877" stroke-width="0.8">
+      <line x1="50" y1="20" x2="50" y2="26"/><line x1="50" y1="64" x2="50" y2="70"/>
+      <line x1="25" y1="45" x2="31" y2="45"/><line x1="69" y1="45" x2="75" y2="45"/>
+    </g>
+    <path d="M30 100 q20 -22 40 0 q-20 22 -40 0z" fill="none" stroke="#d9c2fb" stroke-width="0.8"/>
+    <circle cx="50" cy="100" r="5" fill="none" stroke="#d9c2fb" stroke-width="0.8"/>
+    <path d="M50 118 l4 8 9 1.2 -6.5 6.3 1.5 9 -8 -4.3 -8 4.3 1.5 -9 -6.5 -6.3 9 -1.2z" fill="none" stroke="#e8c877" stroke-width="0.8"/>
+  </svg>
+
+  <svg class="deco-card deco-right card-float" viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg" style="animation-delay:1.3s">
+    <rect x="4" y="4" width="92" height="152" rx="10" fill="#1c0f38" stroke="#e8c877" stroke-width="1.2"/>
+    <rect x="10" y="10" width="80" height="140" rx="7" fill="none" stroke="#b98cf2" stroke-width="0.7"/>
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="50" cy="36" r="18" fill="none" stroke="#e8c877" stroke-width="1" opacity="0.55"/>
+      <path d="M60 35a12 12 0 1 1-12-12 9 9 0 0 0 12 12z" fill="none" stroke="#e8c877" stroke-width="2.3"/>
+      <path d="M50 64v10M44 69h12" stroke="#e8c877" stroke-width="0.75" opacity="0.5"/>
+      <path d="M28 106 L40 96 L52 104 L64 92 L76 100" stroke="#b98cf2" stroke-width="0.85" fill="none" opacity="0.72"/>
+      <g fill="#d9c2fb" opacity="0.82">
+        <circle cx="28" cy="106" r="1.7"/><circle cx="40" cy="96" r="1.7"/><circle cx="52" cy="104" r="1.7"/>
+        <circle cx="64" cy="92" r="1.7"/><circle cx="76" cy="100" r="1.7"/>
+        <circle cx="34" cy="126" r="1.4"/><circle cx="68" cy="124" r="1.4"/>
+      </g>
+    </g>
+  </svg>
+  <svg class="sym sym-drift gold" style="top:22%; left:22%; animation-delay:0.7s;" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l2 6h6l-5 3.7 2 6.3-5-3.9-5 3.9 2-6.3L4 8h6z"/></svg>
+  <svg class="sym sym-drift purple" style="top:64%; left:28%; animation-delay:2.7s;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l2 6h6l-5 3.7 2 6.3-5-3.9-5 3.9 2-6.3L4 8h6z"/></svg>
+  <svg class="sym sym-drift gold" style="top:58%; right:27%; animation-delay:3.4s;" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l2 6h6l-5 3.7 2 6.3-5-3.9-5 3.9 2-6.3L4 8h6z"/></svg>
+
+  <a class="moon-wrap" href="altar.html" aria-label="abrir segredo do sol">
+    <div class="moon-glow"></div>
+    <img src="tarot-sun.png" alt="" aria-hidden="true">
+  </a>
+  <img class="hero-bouquet" src="bouquet.png" alt="" aria-hidden="true">
+  <p class="eyebrow"></p>
+  <h1>oii meu amor</h1>
+  <p class="tag">fiz esse site pensando em tudo que ja descobri que voce gosta e tambem pra guardar algumas memorias nossas, espero que goste, eu te amo princesa!</p>
+  <button class="show-invitation" id="openShow" type="button" aria-pressed="false" aria-controls="showStage showControls showMusic">
+    <span aria-hidden="true">✦</span> <span id="showButtonLabel">oq sera q tem aqui</span> <span aria-hidden="true">♡</span>
+  </button>
+  <p class="show-invitation-note"></p>
+  <div class="show-inline-music" id="showMusic" hidden>
+    <p class="show-music-title">Sailor Song <span>· Gigi Perez</span></p>
+    <div class="show-video-slot">
+      <div class="show-video-placeholder" id="showVideoPlaceholder" role="img" aria-label="Espaço reservado para nosso vídeo">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+          <rect x="7" y="9" width="34" height="30" rx="4"/>
+          <path d="M15 9v30M33 9v30M7 17h8M7 24h8M7 31h8M33 17h8M33 24h8M33 31h8"/>
+          <path d="M24 30s-7-4.5-7-8.5a4 4 0 0 1 7-2.5 4 4 0 0 1 7 2.5c0 4-7 8.5-7 8.5z"/>
+        </svg>
+        <p>nosso filme</p>
+        <span>mais uma memória nossa, em breve ♡</span>
+      </div>
+      <!-- A barra do show controla o vídeo e a música juntos. -->
+      <video id="showVideo" src="video.mp4" playsinline muted preload="metadata" hidden aria-label="Nosso vídeo especial"></video>
+    </div>
+    <div id="showAudioPlayer" hidden></div>
+    <p class="show-music-hint" id="showMusicHint" role="status">preparando a nossa música…</p>
+  </div>
+</section>
+
+<section id="carta">
+  <div class="kicker">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2l2.2 6.8H21l-5.6 4.1 2.2 6.8L12 15.6l-5.6 4.1 2.2-6.8L3 8.8h6.8z"/></svg>
+    <h2>cartinha</h2>
+    <div class="rule"></div>
+  </div>
+
+  <!-- scattered symbols near this section -->
+  <svg class="sym sym-drift gold" style="top:6%; left:2%;" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 3v18M3 12h18" opacity="0.5"/><circle cx="12" cy="12" r="8"/></svg>
+  <svg class="sym sym-drift" style="top:70%; right:0%; animation-delay:2s;" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M17 12a5 5 0 11-5-5 4 4 0 004 4 5 5 0 011 1z"/></svg>
+  <svg class="sym sym-drift purple" style="top:16%; right:7%; animation-delay:1.2s;" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l2 6h6l-5 3.7 2 6.3-5-3.9-5 3.9 2-6.3L4 8h6z"/></svg>
+  <svg class="sym sym-drift gold" style="bottom:8%; left:8%; animation-delay:3.2s;" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l2 6h6l-5 3.7 2 6.3-5-3.9-5 3.9 2-6.3L4 8h6z"/></svg>
+
+  <div class="letter-stage">
+    <div class="tarot-card" id="tarotCard">
+      <div class="face face-back">
+        <img class="tarot-image-card" src="enamorados.jfif" alt="Carta de tarot The Lovers">
+      </div>
+      <div class="face face-front">
+        <svg class="corner-sym tl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/></svg>
+        <svg class="corner-sym tr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/></svg>
+        <svg class="corner-sym bl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/></svg>
+        <svg class="corner-sym br" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/></svg>
+        <p class="card-title">Para Maria Rita</p>
+        <div class="divider"></div>
+        <div class="letter-text" id="letterText">
+          <p class="placeholder-note">desde que eu te vi voce chamou minha atenção, voce me atraiu de uma forma que eu nao soube explicar, esse seu jeito de ser, sua forma de se mover, tudo em voce é atraente e intrigante para mim e a cada dia que passo com voce eu me interesso mais e mais em voce. eu realmente espero que nosso relacionamento vá para frente e que tudo se encaminhe para que possamos ficar juntas por que eu me sinto tao bem perto de voce. nossas conversas sao tao boas, quando voce me fala sobre seu taro, ou quando voce me fala sobre as musicas que gosta, sua vontade em ser psicologa por que voce analisa bem as pessoas, ou so simplesmente quando a gente ta se olhando, eu sinto a minha alma se conectando com a sua, eu sinto que a nossa historia vai ser longa e linda. eu amo voce e eu te quero muito, voce é uma obra de arte viva, eu realmente tento mas sempre falho miseravelmente em tentar descrever o quao perfeita voce é. eu realmente acho que nao demonstro o suficiente o quanto eu te quero por que voce merece tudo de melhor que existe e que vai existir um dia e eu me dedico e vou continuar me dedicando pra sempre fazer voce receber tudo isso que tem de melhor. eu nao sou muito boa com textos, eu me saio melhor demonstrando, mas eu precisava escrever pra voce entender que eu te amo e que eu te quero muito, eu nem preciso ressaltar a mulher incrivel que voce é por que voce ja tem noção disso, meu papel nao é esse, meu papel é fazer essa mulher perfeita que voce é ser tratada da forma que merece. eu te amo demais e espero que eu possa sempre cumprir com meu papel.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="flip-hint">toque na carta para virar</p>
+</section>
+
+<section id="fotos">
+  <div class="kicker">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="4.2"/><path d="M4 8h2.2L8 5h8l1.8 3H20a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V9a1 1 0 011-1z"/></svg>
+    <h2>lembranças</h2>
+    <div class="rule"></div>
+  </div>
+
+  <svg class="sym sym-drift gold" style="top:2%; right:4%; animation-delay:1s;" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l1.8 5.6H19l-4.6 3.4 1.8 5.6L12 13.2l-4.2 3.4 1.8-5.6L5 7.6h5.2z"/></svg>
+  <svg class="sym sym-drift purple" style="top:8%; left:20%; animation-delay:2.9s;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l2 6h6l-5 3.7 2 6.3-5-3.9-5 3.9 2-6.3L4 8h6z"/></svg>
+  <svg class="sym sym-drift gold" style="top:46%; left:50%; animation-delay:4s;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l2 6h6l-5 3.7 2 6.3-5-3.9-5 3.9 2-6.3L4 8h6z"/></svg>
+  <svg class="sym sym-drift purple" style="bottom:24%; right:16%; animation-delay:0.9s;" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l2 6h6l-5 3.7 2 6.3-5-3.9-5 3.9 2-6.3L4 8h6z"/></svg>
+  <svg class="sym sym-drift gold" style="top:18%; left:-8%; animation-delay:0.4s;" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9"><circle cx="12" cy="12" r="7"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.8 2.8M16.2 16.2L19 19M19 5l-2.8 2.8M7.8 16.2L5 19"/></svg>
+  <svg class="sym sym-drift" style="top:30%; right:-9%; animation-delay:2.3s;" width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9"><path d="M17 12a5 5 0 11-5-5 4 4 0 004 4 5 5 0 015 1z"/></svg>
+  <svg class="sym sym-drift gold" style="bottom:16%; left:-6%; animation-delay:3.1s;" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l2 6h6l-5 3.7 2 6.3-5-3.9-5 3.9 2-6.3L4 8h6z"/></svg>
+  <svg class="sym sym-drift" style="bottom:4%; right:2%; animation-delay:1.6s;" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M17 12a5.8 5.8 0 11-5.8-5.8 4.7 4.7 0 005.8 5.8z"/></svg>
+  <svg class="deco-card card-float" style="left:-13%; top:52%; width:82px; --r:-10deg; opacity:0.42; animation-delay:1.8s;" viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="4" width="92" height="152" rx="10" fill="#1c0f38" stroke="#e8c877" stroke-width="1.2"/>
+    <rect x="12" y="12" width="76" height="136" rx="7" fill="none" stroke="#b98cf2" stroke-width="0.8"/>
+    <g transform="translate(0 2)" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="50" cy="42" r="18" fill="none" stroke="#e8c877" stroke-width="1.1" opacity="0.55"/>
+      <path d="M60 40a13 13 0 1 1-13-13 10 10 0 0 0 13 13z" fill="none" stroke="#e8c877" stroke-width="2.4"/>
+      <circle cx="50" cy="82" r="2" fill="#d9c2fb" opacity="0.75"/>
+      <path d="M31 104 q19 -15 38 0 q-19 15 -38 0z" fill="none" stroke="#d9c2fb" stroke-width="1.25"/>
+      <circle cx="50" cy="104" r="3.5" fill="none" stroke="#d9c2fb" stroke-width="1"/>
+      <path d="M50 64v10M43 69h14" stroke="#e8c877" stroke-width="0.85" opacity="0.58"/>
+    </g>
+  </svg>
+  <svg class="deco-card card-float" style="right:-12%; top:58%; width:78px; --r:13deg; opacity:0.42; animation-delay:0.8s;" viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="4" width="92" height="152" rx="10" fill="#1c0f38" stroke="#e8c877" stroke-width="1.2"/>
+    <rect x="12" y="12" width="76" height="136" rx="7" fill="none" stroke="#b98cf2" stroke-width="0.8"/>
+    <circle cx="50" cy="56" r="24" fill="none" stroke="#e8c877" stroke-width="1"/>
+    <path d="M50 28v56M22 56h56M30 36l40 40M70 36L30 76" stroke="#e8c877" stroke-width="0.8" opacity="0.7"/>
+    <path d="M50 105 l5 10 11 1.5 -8 7.8 2 11 -10 -5.5 -10 5.5 2-11 -8-7.8 11-1.5z" fill="none" stroke="#d9c2fb" stroke-width="0.9"/>
+  </svg>
+
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<section id="musicas">
+  <div class="kicker">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+    <h2>musicas que me lembram vc </h2>
+    <div class="rule"></div>
+  </div>
+
+  <svg class="sym sym-drift gold" style="top:12%; left:-5%; animation-delay:1.4s;" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l2 6h6l-5 3.7 2 6.3-5-3.9-5 3.9 2-6.3L4 8h6z"/></svg>
+  <svg class="sym sym-drift purple" style="top:24%; right:-4%; animation-delay:2.4s;" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l2 6h6l-5 3.7 2 6.3-5-3.9-5 3.9 2-6.3L4 8h6z"/></svg>
+  <svg class="sym sym-drift gold" style="bottom:10%; right:8%; animation-delay:3.6s;" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2l2 6h6l-5 3.7 2 6.3-5-3.9-5 3.9 2-6.3L4 8h6z"/></svg>
+
+  <div class="spotify-frame">
+    <div class="spotify-header">
+      <div class="cover-art">
+        <img src="1.jpeg" alt="Capa da playlist">
+      </div>
+      <div class="spotify-meta">
+        <p class="type">playlist</p>
+        <h3><a href="https://open.spotify.com/playlist/6sGYfwLhNTieG4DRo2ZzMr?si=PxP8pWzyTiKux_OjEzCLVw" target="_blank" rel="noopener">almas</a></h3>
+        <p class="sub">clica no nome da playlist pra ir pro spotify</p>
+      </div>
+    </div>
+    <div class="spotify-controls">
+      <div class="play-btn">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <svg class="like-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7.5-4.7-10-9.3C.4 8.1 2 4.5 5.6 4c2-.3 3.9.6 5 2.2C11.7 4.6 13.6 3.7 15.6 4c3.6.5 5.2 4.1 3.6 7.7C16.7 16.3 12 21 12 21z"/></svg>
+    </div>
+    <div class="track-table">
+      <div class="track-head"><span>#</span><span>título</span><span class="col-dur">duração</span></div>
+      <div class="song-list" id="songList"></div>
+    </div>
+  </div>
+</section>
+
+<footer>feito com muito amor para minha princesa maria</footer>
+
+<div class="show-stage" id="showStage" hidden aria-hidden="true">
+  <div class="show-aurora"></div>
+  <div class="show-beams">
+    <i class="show-beam"></i><i class="show-beam"></i><i class="show-beam"></i>
+    <i class="show-beam"></i><i class="show-beam"></i><i class="show-beam"></i>
+  </div>
+  <div class="show-halo"></div>
+  <div class="show-vignette"></div>
+</div>
+<canvas id="showParticles" hidden aria-hidden="true"></canvas>
+<div class="show-lyrics" id="showLyrics" hidden role="region" aria-label="Letra da música">
+  <p id="showLyricLine"></p>
+</div>
+<div class="show-controls" id="showControls" hidden role="region" aria-label="Controles do show">
+  <div class="show-now-playing">
+    <span class="show-equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <div><strong>Sailor Song</strong><span id="showStatus" role="status">preparando o show…</span></div>
+  </div>
+  <div class="show-control-buttons">
+    <button id="toggleShow" type="button" aria-label="Tocar música" title="Tocar música" disabled>
+      <span id="showPlayIcon" aria-hidden="true">▶</span><span class="show-control-label" id="showPlayLabel">tocar</span>
+    </button>
+    <button id="softenShow" type="button" aria-label="Usar luzes suaves" aria-pressed="false" title="Luzes suaves">
+      <span aria-hidden="true">☾</span><span class="show-control-label">luzes suaves</span>
+    </button>
+    <button id="restartShow" type="button" aria-label="Recomeçar música e show" title="Recomeçar" disabled>↺</button>
+    <button id="closeShow" type="button" aria-label="Encerrar show" title="Encerrar show">✕</button>
+  </div>
+  <div class="show-timeline">
+    <span id="showCurrentTime">0:00</span>
+    <input id="showSeek" type="range" min="0" max="212" value="0" step="0.1" aria-label="Posição da música" disabled>
+    <span id="showDuration">3:32</span>
+  </div>
+</div>
+
+<script>
+  // starfield
+  const starsContainer = document.getElementById('stars');
+  const STAR_COUNT = 220;
+  for(let i=0;i<STAR_COUNT;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random()*2.4 + 1;
+    s.style.width = size+'px';
+    s.style.height = size+'px';
+    s.style.left = Math.random()*100 + 'vw';
+    s.style.top = Math.random()*100 + 'vh';
+    s.style.animationDelay = (Math.random()*4)+'s';
+    s.style.animationDuration = (3+Math.random()*3)+'s';
+    if(i % 9 === 0){
+      s.style.background = 'var(--gold)';
+      s.style.boxShadow = '0 0 12px rgba(232,200,119,0.9), 0 0 24px rgba(232,200,119,0.32)';
+    }
+    starsContainer.appendChild(s);
+  }
+
+  // card flip
+  const card = document.getElementById('tarotCard');
+  if(card){
+    const cartaSection = document.getElementById('carta');
+    card.addEventListener('click', () => {
+      const opened = card.classList.toggle('flipped');
+      cartaSection?.classList.toggle('card-open', opened);
+      if(opened){
+        setTimeout(() => card.scrollIntoView({ behavior:'smooth', block:'center' }), 120);
+      }
+    });
+  }
+
+  // gallery photos
+  const gallery = document.getElementById('gallery');
+  const photoFiles = ['1.jpeg', '2.jpeg', '3.jpeg', '4.jpeg', '5.jpeg', '6.jpeg'];
+  photoFiles.forEach((src, idx) => {
+    const frame = document.createElement('div');
+    frame.className = 'photo-frame has-img';
+    frame.innerHTML = `
+      <span class="photo-title">os enamorados</span>
+      <img src="${src}" alt="lembrança ${idx + 1}">
+    `;
+    gallery.appendChild(frame);
+  });
+
+  // spotify-style song list placeholders
+  const songList = document.getElementById('songList');
+  const placeholders = [
+    { title: 'Cupido', artist: 'Maria Rita', dur: '5:07', link: 'https://open.spotify.com/intl-pt/track/1oQZBIB9gK1KPTZSLCNkxY?si=bfa501ed3a5946dd' },
+    { title: 'Disritmia', artist: 'Casuarina', dur: '3:03', link: 'https://open.spotify.com/intl-pt/track/5kunnyRXn1uwU3h1H2MYpI?si=ab50a38a56b5475e' },
+    { title: 'Tardes que nunca acabam', artist: 'Bacu exu do blues', dur: '2:18', link: 'https://open.spotify.com/intl-pt/track/7k1LbejBTDRUvbs6LIsG0E?si=e2299f77c5e341c5' },
+    { title: 'Espetaculo estranho', artist: 'AnaVitoria', dur: '3:32', link: 'https://open.spotify.com/intl-pt/track/7325x5azZOlWkYL9EpnqW5?si=9572ec25060d479d' },
+    { title: 'God is a woman', artist: 'Ariana Grande', dur: '3:17', link: 'https://open.spotify.com/intl-pt/track/5OCJzvD7sykQEKHH7qAC3C?si=c04aa35fbe274cdb' },
+  ];
+  const coverExtensions = ['jpeg', 'jpg', 'png', 'webp', 'jfif'];
+
+  function loadSongCover(img, baseName, extensionIndex = 0){
+    if(extensionIndex >= coverExtensions.length) return;
+    img.onerror = () => loadSongCover(img, baseName, extensionIndex + 1);
+    img.onload = () => img.closest('.thumb')?.classList.add('has-cover');
+    img.src = `${baseName}.${coverExtensions[extensionIndex]}`;
+  }
+
+  placeholders.forEach((s, idx) => {
+    const row = document.createElement('div');
+    row.className = 'song-row';
+    row.innerHTML = `
+      <div class="song-num">
+        <span class="num">${idx+1}</span>
+        <span class="play-i"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+      </div>
+      <div class="song-info">
+        <div class="thumb">
+          <img alt="capa da música ${idx+1}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+        </div>
+        <div class="song-text">
+          <a class="song-title" href="${s.link}" target="_blank" rel="noopener">${s.title}</a>
+          <div class="song-sub">${s.artist}</div>
+        </div>
+      </div>
+      <div class="song-dur">${s.dur}</div>
+    `;
+    loadSongCover(row.querySelector('.thumb img'), `musica${idx+1}`);
+    songList.appendChild(row);
+  });
+</script>
+
+</body>
+</html>
