@@ -1195,7 +1195,7 @@ window.SHOW_LYRICS = {
       playing = false; ready = false; stopFrames(); updatePlaybackButtons();
       video.pause();
       playButton.disabled = true; seek.disabled = true; restartButton.disabled = false;
-      setStatus('não consegui carregar a música', 'toque em recomeçar para tentar carregar a música de novo.');
+      setStatus('não consegui carregar a música', 'replay');
     }
     audio.addEventListener('loadedmetadata', () => {
       if (!valid()) return;
